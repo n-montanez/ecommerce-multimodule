@@ -1,0 +1,33 @@
+<server description="Ecommerce Server">
+
+    <featureManager>
+        <platform>jakartaee-10.0</platform>
+        <feature>microProfile-7.0</feature>
+        <feature>persistence</feature>
+    </featureManager>
+
+    <variable name="http.port" defaultValue="8080" />
+    <variable name="https.port" defaultValue="8443" />
+
+    <httpEndpoint host="*" httpPort="${http.port}"
+        httpsPort="${https.port}" id="defaultHttpEndpoint" />
+
+    <enterpriseApplication id="ecommerce-ear"
+        location="ecommerce-ear.ear"
+        name="ecommerce-ear" />
+
+    <library id="MySQLLib">
+        <fileset dir="jdbc" includes="*.jar" />
+    </library>
+
+    <dataSource id="productsds" jndiName="jdbc/productsds" transactional="false">
+        <jdbcDriver libraryRef="MySQLLib" />
+        <properties
+            serverName="${DB_HOST}"
+            portNumber="${DB_PORT}"
+            databaseName="${DB_NAME}"
+            user="${DB_USER}"
+            password="${DB_PASSWORD}" />
+    </dataSource>
+
+</server>
