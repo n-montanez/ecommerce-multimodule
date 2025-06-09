@@ -2,6 +2,14 @@ package com.montanez.products_catalog.resources;
 
 import java.util.UUID;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+
 import com.montanez.products_catalog.dao.ProductDao;
 import com.montanez.products_catalog.model.CreateProductDto;
 import com.montanez.products_catalog.model.Product;
@@ -25,11 +33,16 @@ import jakarta.ws.rs.core.Response;
 @RequestScoped
 @Transactional
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "Product", description = "Operations related to products in the catalog")
 public class ProductResource {
     @Inject
     ProductDao productDao;
 
     @GET
+    @Operation(summary = "Get all products", description = "Retrieves a list of all available products.")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Successfully retrieved products", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Product.class, type = SchemaType.ARRAY)))
+    })
     public Response getAllProducts() {
         return Response
                 .ok()
@@ -39,6 +52,11 @@ public class ProductResource {
 
     @GET
     @Path("/{id}")
+    @Operation(summary = "Get product by ID", description = "Retrieves a single product by its unique identifier.")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Successfully retrieved product", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Product.class))),
+            @APIResponse(responseCode = "404", description = "Product not found")
+    })
     public Response getById(@PathParam("id") UUID id) {
         Product product = productDao.readProduct(id);
 
@@ -53,6 +71,11 @@ public class ProductResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Create a new product", description = "Creates a new product with the provided details.")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "201", description = "Product created successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Product.class))),
+            @APIResponse(responseCode = "400", description = "Invalid product data provided")
+    })
     public Response createProduct(CreateProductDto productDto) {
         Product product = Product
                 .builder()
@@ -72,6 +95,12 @@ public class ProductResource {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Update an existing product", description = "Updates the details of an existing product.")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "200", description = "Product updated successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Product.class))),
+            @APIResponse(responseCode = "404", description = "Product not found"),
+            @APIResponse(responseCode = "400", description = "Invalid product data provided")
+    })
     public Response updateProduct(@PathParam("id") UUID id, CreateProductDto productDto) {
         Product product = productDao.readProduct(id);
 
@@ -91,12 +120,17 @@ public class ProductResource {
 
     @DELETE
     @Path("/{id}")
+    @Operation(summary = "Delete a product", description = "Deletes a product by its unique identifier.")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "204", description = "Product deleted successfully (No Content)"),
+            @APIResponse(responseCode = "404", description = "Product not found (though a 204 is often returned even if not found for idempotency)")
+    })
     public Response deleteProducts(@PathParam("id") UUID id) {
         Product product = productDao.readProduct(id);
 
         if (product != null)
             productDao.deleteProduct(product);
-        
+
         return Response.noContent().build();
     }
 
