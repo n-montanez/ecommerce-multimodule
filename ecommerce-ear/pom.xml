@@ -30,6 +30,12 @@
             <version>1.0</version>
             <type>war</type>
         </dependency>
+        <dependency>
+            <groupId>com.montanez</groupId>
+            <artifactId>authentication</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -45,7 +51,13 @@
                             <groupId>com.montanez</groupId>
                             <artifactId>product-catalog</artifactId>
                             <uri>/product-catalog-1.0.war</uri>
-                            <contextRoot>/products</contextRoot>
+                            <contextRoot>/api/products</contextRoot>
+                        </webModule>
+                        <webModule>
+                            <groupId>com.montanez</groupId>
+                            <artifactId>authentication</artifactId>
+                            <uri>/authentication-1.0.war</uri>
+                            <contextRoot>/api/auth</contextRoot>
                         </webModule>
                     </modules>
                 </configuration>
