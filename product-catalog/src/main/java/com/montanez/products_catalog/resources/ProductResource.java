@@ -10,7 +10,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import com.montanez.products_catalog.dao.ProductDao;
+import com.montanez.products_catalog.data.ProductDao;
 import com.montanez.products_catalog.model.CreateProductDto;
 import com.montanez.products_catalog.model.Product;
 

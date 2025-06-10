@@ -1,4 +1,4 @@
-package com.montanez.products_catalog.dao;
+package com.montanez.products_catalog.data;
 
 import java.util.List;
 import java.util.UUID;
