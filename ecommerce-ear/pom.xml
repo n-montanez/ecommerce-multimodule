@@ -57,7 +57,7 @@
                             <groupId>com.montanez</groupId>
                             <artifactId>authentication</artifactId>
                             <uri>/authentication-1.0.war</uri>
-                            <contextRoot>/api/auth</contextRoot>
+                            <contextRoot>/api/users</contextRoot>
                         </webModule>
                     </modules>
                 </configuration>
