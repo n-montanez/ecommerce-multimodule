@@ -12,15 +12,17 @@
     <httpEndpoint host="*" httpPort="${http.port}"
         httpsPort="${https.port}" id="defaultHttpEndpoint" />
 
-    <enterpriseApplication id="ecommerce-ear"
+    <enterpriseApplication
+        id="ecommerce-ear"
         location="ecommerce-ear.ear"
-        name="ecommerce-ear" />
+        name="ecommerce-ear"
+    />
 
     <library id="MySQLLib">
         <fileset dir="jdbc" includes="*.jar" />
     </library>
 
-    <dataSource id="productsds" jndiName="jdbc/productsds" transactional="false">
+    <dataSource id="ecommerceds" jndiName="jdbc/ecommerceds" transactional="false">
         <jdbcDriver libraryRef="MySQLLib" />
         <properties
             serverName="${DB_HOST}"
