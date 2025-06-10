@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 
 @Entity
 @Data
@@ -46,4 +47,6 @@ public class Customer implements Serializable {
     @Size(max = 60, message = "Password was not properly hashed")
     private String passwordHash;
 
+    @Default
+    private String role = "user";
 }
