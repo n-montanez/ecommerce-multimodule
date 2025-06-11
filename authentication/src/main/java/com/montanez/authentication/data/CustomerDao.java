@@ -6,6 +6,7 @@ import com.montanez.authentication.models.customer.Customer;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
 @RequestScoped
@@ -16,6 +17,7 @@ public class CustomerDao {
 
     public void createCustomer(Customer customer) {
         em.persist(customer);
+        em.flush();
     }
 
     public void updateCustomer(Customer customer) {
@@ -28,6 +30,12 @@ public class CustomerDao {
 
     public List<Customer> readAllCustomers() {
         return em.createNamedQuery("Customer.findAll", Customer.class).getResultList();
+    }
+
+    public Customer readCustomerByEmail(String email) throws NoResultException {
+        return em.createNamedQuery("Customer.findByEmail", Customer.class)
+                .setParameter("email", email)
+                .getSingleResult();
     }
 
 }
