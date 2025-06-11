@@ -20,7 +20,7 @@ public class CreateCustomer implements Serializable {
     private String email;
 
     @Size(max = 128, message = "First Name size too long")
-    private String firtName;
+    private String firstName;
 
     @Size(max = 128, message = "Last Name size too long")
     private String lastName;

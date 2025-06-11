@@ -26,6 +26,8 @@ import lombok.Builder.Default;
 @AllArgsConstructor
 @Table(name = "customer")
 @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")
+@NamedQuery(name = "Customer.findByEmail", query = "SELECT c FROM Customer c WHERE " +
+        "c.email = :email")
 public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +38,7 @@ public class Customer implements Serializable {
     private String email;
 
     @Size(max = 128, message = "First Name size too long")
-    private String firtName;
+    private String firstName;
 
     @Size(max = 128, message = "Last Name size too long")
     private String lastName;

@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerInfo implements Serializable {
 
+public class CustomerInfo implements Serializable {
     private Long id;
     private String email;
-    private String firtName;
+    private String firstName;
     private String lastName;
     private LocalDate dob;
 }
