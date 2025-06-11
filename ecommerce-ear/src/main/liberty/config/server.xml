@@ -18,6 +18,8 @@
         name="ecommerce-ear"
     />
 
+    <keyStore id="defaultKeyStore" password="secret" />
+
     <library id="MySQLLib">
         <fileset dir="jdbc" includes="*.jar" />
     </library>
