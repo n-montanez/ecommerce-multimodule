@@ -14,6 +14,7 @@ import com.montanez.products_catalog.data.ProductDao;
 import com.montanez.products_catalog.model.CreateProductDto;
 import com.montanez.products_catalog.model.Product;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -76,6 +77,7 @@ public class ProductResource {
             @APIResponse(responseCode = "201", description = "Product created successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Product.class))),
             @APIResponse(responseCode = "400", description = "Invalid product data provided")
     })
+    @RolesAllowed({ "admin" })
     public Response createProduct(CreateProductDto productDto) {
         Product product = Product
                 .builder()
@@ -101,6 +103,7 @@ public class ProductResource {
             @APIResponse(responseCode = "404", description = "Product not found"),
             @APIResponse(responseCode = "400", description = "Invalid product data provided")
     })
+    @RolesAllowed({ "admin" })
     public Response updateProduct(@PathParam("id") UUID id, CreateProductDto productDto) {
         Product product = productDao.readProduct(id);
 
@@ -125,6 +128,7 @@ public class ProductResource {
             @APIResponse(responseCode = "204", description = "Product deleted successfully (No Content)"),
             @APIResponse(responseCode = "404", description = "Product not found (though a 204 is often returned even if not found for idempotency)")
     })
+    @RolesAllowed({ "admin" })
     public Response deleteProducts(@PathParam("id") UUID id) {
         Product product = productDao.readProduct(id);
 
