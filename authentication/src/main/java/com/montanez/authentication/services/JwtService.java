@@ -62,7 +62,7 @@ public class JwtService {
         Set<String> roles = Set.of(customer.getRole());
         return Jwts.builder()
                 .header().add("typ", "JWT").and()
-                .claim(Claims.SUBJECT, customer.getEmail())
+                .claim(Claims.SUBJECT, customer.getId().toString())
                 .claim("upn", customer.getEmail())
                 .claim("groups", roles.toArray(new String[roles.size()]))
                 .issuer("https://github.com/n-montanez")
