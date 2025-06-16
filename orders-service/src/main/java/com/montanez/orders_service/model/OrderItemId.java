@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderItemId implements Serializable {
     private UUID orderId;
-    private UUID physicalCopyId;
+    private UUID productId;
 }

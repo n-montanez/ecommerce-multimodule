@@ -1,7 +1,7 @@
 package com.montanez.orders_service.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "order")
+@NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,10 +35,10 @@ public class Order {
     private UUID id;
 
     @Column(name = "customer_id")
-    private UUID customer;
+    private Long customer;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "total")
     @Min(value = 0, message = "Order total price cannot be negative")
