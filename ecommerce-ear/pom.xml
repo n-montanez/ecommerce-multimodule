@@ -36,6 +36,12 @@
             <version>1.0</version>
             <type>war</type>
         </dependency>
+        <dependency>
+            <groupId>com.montanez</groupId>
+            <artifactId>orders-service</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -58,6 +64,12 @@
                             <artifactId>authentication</artifactId>
                             <uri>/authentication-1.0.war</uri>
                             <contextRoot>/api/users</contextRoot>
+                        </webModule>
+                        <webModule>
+                            <groupId>com.montanez</groupId>
+                            <artifactId>orders-service</artifactId>
+                            <uri>/orders-service-1.0.war</uri>
+                            <contextRoot>/api/orders</contextRoot>
                         </webModule>
                     </modules>
                 </configuration>
