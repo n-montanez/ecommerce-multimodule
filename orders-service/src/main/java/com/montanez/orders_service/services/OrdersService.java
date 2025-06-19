@@ -42,7 +42,7 @@ public class OrdersService {
         return ordersDao.readAllOrders();
     }
 
-    public Order getOrderById(JsonWebToken token, UUID id) {
+    public OrderInfoDTO getOrderById(JsonWebToken token, UUID id) {
         Order order = ordersDao.readOrder(id);
         Long authId = Long.parseLong(token.getSubject());
         Set<String> roles = token.getGroups();
@@ -53,7 +53,22 @@ public class OrdersService {
         if (!roles.contains("admin") && order.getCustomer() != authId)
             throw new ForbiddenException("User does not have access to this order");
 
-        return order;
+        List<OrderItemRequest> dtoItems = new ArrayList<>();
+        for (OrderItem item : order.getItems()) {
+            dtoItems.add(OrderItemRequest.builder()
+                    .productId(item.getId().getProductId())
+                    .quantity(item.getQuantity())
+                    .build());
+        }
+
+        return OrderInfoDTO.builder()
+                .id(id)
+                .customer(authId)
+                .date(order.getDate())
+                .state(order.getState())
+                .total(order.getTotal())
+                .items(dtoItems)
+                .build();
     }
 
     public OrderInfoDTO createOrder(JsonWebToken token, CreateOrderDTO createOrder) {
@@ -108,5 +123,35 @@ public class OrdersService {
                 .state(order.getState())
                 .items(createOrder.getItems())
                 .build();
+    }
+
+    public List<OrderInfoDTO> getOrdersByUser(JsonWebToken token) {
+        Long authId = Long.parseLong(token.getSubject());
+
+        List<Order> orders = ordersDao.readOrderFromUser(authId);
+        List<OrderInfoDTO> result = new ArrayList<>();
+
+        for (Order order : orders) {
+            OrderInfoDTO info = OrderInfoDTO.builder()
+                    .id(order.getId())
+                    .customer(authId)
+                    .date(order.getDate())
+                    .total(order.getTotal())
+                    .state(order.getState())
+                    .build();
+
+            List<OrderItemRequest> finalItems = new ArrayList<>();
+            for (OrderItem item : order.getItems()) {
+                finalItems.add(OrderItemRequest.builder()
+                        .productId(item.getId().getProductId())
+                        .quantity(item.getQuantity())
+                        .build());
+            }
+
+            info.setItems(finalItems);
+            result.add(info);
+        }
+
+        return result;
     }
 }

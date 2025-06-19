@@ -36,4 +36,10 @@ public class OrdersDao {
     public List<Order> readAllOrders() {
         return em.createNamedQuery("Order.findAll", Order.class).getResultList();
     }
+
+    public List<Order> readOrderFromUser(Long userId) {
+        return em.createNamedQuery("Order.findByUser", Order.class)
+                .setParameter("customer", userId)
+                .getResultList();
+    }
 }

@@ -29,6 +29,8 @@ import lombok.Builder.Default;
 @NoArgsConstructor
 @Table(name = "c_order")
 @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
+@NamedQuery(name = "Order.findByUser", query = "SELECT o FROM Order o WHERE "
+        + "o.customer = :customer")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

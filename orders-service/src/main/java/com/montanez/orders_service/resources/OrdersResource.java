@@ -42,13 +42,15 @@ public class OrdersResource {
     @GET
     @Path("/{id}")
     public Response getOrderById(@PathParam("id") UUID id) {
+        System.out.println("By id");
         return Response.ok(ordersService.getOrderById(jwt, id)).build();
     }
-
+    
     @GET
     @Path("/me")
     public Response getOrdersOfUser() {
-        return null;
+        System.out.println("By user");
+        return Response.ok(ordersService.getOrdersByUser(jwt)).build();
     }
 
     @POST
