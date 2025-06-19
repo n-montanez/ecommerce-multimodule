@@ -40,8 +40,12 @@ public class OrdersService {
     @Inject
     private OrderMapper orderMapper;
 
-    public List<Order> getAllOrders() {
-        return ordersDao.readAllOrders();
+    public List<OrderInfoDTO> getAllOrders() {
+        return ordersDao
+                .readAllOrders()
+                .stream()
+                .map(orderMapper::toOrderInfoDTO)
+                .collect(Collectors.toList());
     }
 
     public OrderInfoDTO getOrderById(JsonWebToken token, UUID id) {
