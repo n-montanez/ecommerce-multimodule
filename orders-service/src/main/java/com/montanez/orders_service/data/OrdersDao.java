@@ -3,13 +3,15 @@ package com.montanez.orders_service.data;
 import java.util.List;
 import java.util.UUID;
 
-import com.montanez.orders_service.model.Order;
+import com.montanez.orders_service.model.order.Order;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 @RequestScoped
+@Transactional
 public class OrdersDao {
     @PersistenceContext(name = "orders-jpa-unit")
     EntityManager em;
