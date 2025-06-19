@@ -1,6 +1,7 @@
 package com.montanez.orders_service.model.product;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -16,5 +17,5 @@ public class Product implements Serializable {
     private UUID id;
     private String name;
     private String brand;
-    private double price;
+    private BigDecimal price;
 }
