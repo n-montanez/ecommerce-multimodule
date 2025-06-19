@@ -1,4 +1,4 @@
-package com.montanez.orders_service.model;
+package com.montanez.orders_service.model.order;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;

@@ -1,4 +1,4 @@
-package com.montanez.orders_service.model;
+package com.montanez.orders_service.model.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,13 +20,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 
+@Builder
 @Entity
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "order")
+@Table(name = "c_order")
 @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
 public class Order {
     @Id
@@ -44,9 +45,10 @@ public class Order {
     @Min(value = 0, message = "Order total price cannot be negative")
     private BigDecimal total;
 
-    @Column(name = "state")
+    @Default
+    @Column(name = "order_state")
     @Enumerated(EnumType.STRING)
-    private OrderState state;
+    private OrderState state = OrderState.CREATED;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items;

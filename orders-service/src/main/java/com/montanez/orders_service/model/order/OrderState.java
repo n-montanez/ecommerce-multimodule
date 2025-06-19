@@ -1,4 +1,4 @@
-package com.montanez.orders_service.model;
+package com.montanez.orders_service.model.order;
 
 public enum OrderState {
     CREATED,
