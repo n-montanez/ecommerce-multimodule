@@ -4,34 +4,66 @@
         <platform>jakartaee-10.0</platform>
         <feature>microProfile-7.0</feature>
         <feature>persistence</feature>
+        <feature>ssl-1.0</feature>
+        <feature>messaging</feature>
+        <feature>messagingServer</feature>
+        <feature>messagingClient</feature>
     </featureManager>
 
-    <variable name="http.port" defaultValue="8080" />
-    <variable name="https.port" defaultValue="8443" />
+    <variable name="http.port" defaultValue="8080"/>
+    <variable name="https.port" defaultValue="8443"/>
 
     <httpEndpoint host="*" httpPort="${http.port}"
-        httpsPort="${https.port}" id="defaultHttpEndpoint" />
+                  httpsPort="${https.port}" id="defaultHttpEndpoint"/>
 
     <enterpriseApplication
-        id="ecommerce-ear"
-        location="ecommerce-ear.ear"
-        name="ecommerce-ear"
+            id="ecommerce-ear"
+            location="ecommerce-ear.ear"
+            name="ecommerce-ear"
     />
 
-    <keyStore id="defaultKeyStore" password="secret" />
+    <keyStore id="defaultKeyStore" password="secret"/>
 
     <library id="MySQLLib">
-        <fileset dir="jdbc" includes="*.jar" />
+        <fileset dir="jdbc" includes="*.jar"/>
     </library>
 
     <dataSource id="ecommerceds" jndiName="jdbc/ecommerceds" transactional="false">
-        <jdbcDriver libraryRef="MySQLLib" />
+        <jdbcDriver libraryRef="MySQLLib"/>
         <properties
-            serverName="${DB_HOST}"
-            portNumber="${DB_PORT}"
-            databaseName="${DB_NAME}"
-            user="${DB_USER}"
-            password="${DB_PASSWORD}" />
+                serverName="${DB_HOST}"
+                portNumber="${DB_PORT}"
+                databaseName="${DB_NAME}"
+                user="${DB_USER}"
+                password="${DB_PASSWORD}"/>
     </dataSource>
+
+    <wasJmsEndpoint id="InboundJmsCommsEndpoint"
+                    host="*"
+                    wasJmsPort="7277"
+                    wasJmsSSLPort="9101"/>
+
+    <connectionManager id="MessagingCM" maxPoolSize="400" minPoolSize="1"/>
+
+    <messagingEngine id="MessagingME">
+        <queue id="PaymentsQueue"
+               maxQueueDepth="5000"/>
+    </messagingEngine>
+
+    <jmsConnectionFactory connectionManagerRef="MessagingCM"
+                          jndiName="MessagingConnectionFactory">
+        <properties.wasJms/>
+    </jmsConnectionFactory>
+
+    <jmsQueue id="PaymentsQueue" jndiName="jms/PaymentsQueue">
+        <properties.wasJms queueName="PaymentsQueue"/>
+    </jmsQueue>
+
+    <jmsActivationSpec id="ecommerce/QueueListener">
+        <properties.wasJms maxConcurrency="200"/>
+    </jmsActivationSpec>
+
+    <logging consoleLogLevel="INFO"/>
+
 
 </server>
