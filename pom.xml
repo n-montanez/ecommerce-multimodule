@@ -14,6 +14,7 @@
     <module>product-catalog</module>
     <module>authentication</module>
     <module>orders-service</module>
+    <module>payments-service</module>
   </modules>
 
   <properties>

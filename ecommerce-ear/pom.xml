@@ -42,6 +42,13 @@
             <version>1.0</version>
             <type>war</type>
         </dependency>
+
+        <dependency>
+            <groupId>com.montanez</groupId>
+            <artifactId>payments-service</artifactId>
+            <version>1.0</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -70,6 +77,12 @@
                             <artifactId>orders-service</artifactId>
                             <uri>/orders-service-1.0.war</uri>
                             <contextRoot>/api/orders</contextRoot>
+                        </webModule>
+                        <webModule>
+                            <groupId>com.montanez</groupId>
+                            <artifactId>payments-service</artifactId>
+                            <uri>/payments-service-1.0.war</uri>
+                            <contextRoot>/api/payments</contextRoot>
                         </webModule>
                     </modules>
                 </configuration>
