@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.montanez.orders_service.model.payment.PaymentRequest;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -39,6 +40,9 @@ public class OrdersService {
 
     @Inject
     private OrderMapper orderMapper;
+
+    @Inject
+    PublishToPayments sender;
 
     public List<OrderInfoDTO> getAllOrders() {
         return ordersDao
@@ -95,6 +99,8 @@ public class OrdersService {
         order.setTotal(calculatedTotal);
         order.setItems(orderItems);
         ordersDao.updateOrder(order);
+
+        sender.sendPaymentRequest(new PaymentRequest(order.getId(), order.getTotal()));
 
         return orderMapper.toOrderInfoDTO(order);
     }
